@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require "./test/test_runner.rb"
+
+server_pid = fork do
+  require "./test/test_server.rb"
+end
+
+begin
+  sleep 0.1
+
+  test_pid = fork do
+    TestRunner.new
+  end
+
+  Process.waitpid(test_pid)
+ensure
+  Process.kill(:TERM, server_pid)
+end
+
