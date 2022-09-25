@@ -1,0 +1,1 @@
+rdoc --main README.md *.md lib/* 
